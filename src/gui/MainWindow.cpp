@@ -169,7 +169,7 @@ MainWindow::MainWindow()
     , m_appExiting(false)
 {
     m_ui->setupUi(this);
-    
+
 #if defined(Q_OS_UNIX) && !defined(Q_OS_MAC) && !defined(QT_NO_DBUS)
     new MainWindowAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
@@ -897,7 +897,7 @@ void MainWindow::updateTrayIcon()
             connect(actionToggle, SIGNAL(triggered()), SLOT(toggleWindow()));
 
             m_trayIcon->setContextMenu(menu);
-            
+
             m_trayIcon->setIcon(filePath()->trayIcon());
             m_trayIcon->show();
         }
@@ -1100,7 +1100,7 @@ void MainWindow::hideYubiKeyPopup()
 void MainWindow::bringToFront()
 {
     ensurePolished();
-    setWindowState(windowState() & ~Qt::WindowMinimized);
+    QTimer::singleShot(200, [&](){ setWindowState(Qt::WindowMaximized); });
     show();
     raise();
     activateWindow();
